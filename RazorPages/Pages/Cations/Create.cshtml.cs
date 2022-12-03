@@ -29,26 +29,26 @@ public class CreateModel : PageModel
     // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
     public async Task<IActionResult> OnPostAsync()
     {
-        var concentrationAsText = Request.Form["concentration"];
+        if (!ModelState.IsValid)
+        {
+            return Page();
+        }
 
+        var concentrationAsText = Request.Form["Cation.Concentration"];
 
-        //TODO usunac jak beda jezyki i odkomentowac to na dole
-		var ci=new CultureInfo("pl-PL");
+        try
+        {
+            double concentration = double.Parse(concentrationAsText, CultureInfo.InvariantCulture);
+            Cation.Concentration = concentration;
 
-        //CultureInfo ci;
+            _context.Cations.Add(Cation);
+            await _context.SaveChangesAsync();
 
-        //if(jezyk == polski) ci = new CultureInfo("pl-PL");
-        //else ci = new CultureInfo("en-GB");
-
-        double concentration;
-
-	    concentration = double.Parse(concentrationAsText, ci);		
-
-        Cation.Concentration = concentration;
-
-        _context.Cations.Add(Cation);
-        await _context.SaveChangesAsync();
-
-        return RedirectToPage("./Index");
+            return RedirectToPage("./Index");
+        }
+        catch (Exception)
+        {
+            return Page();
+        }
     }
 }

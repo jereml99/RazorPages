@@ -29,19 +29,24 @@ public class CreateModel : PageModel
     // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
     public async Task<IActionResult> OnPostAsync()
     {
-        var concentrationAsText = Request.Form["concentration"];
-        var requestCulture = HttpContext.Features.Get<IRequestCultureFeature>()?.RequestCulture.UICulture;
+        if (!ModelState.IsValid)
+        {
+            return Page();
+        }
+
+        var concentrationAsText = Request.Form["Anion.Concentration"];
 
         try
         {
-			var concentration = double.Parse(concentrationAsText, requestCulture);
-			Anion.Concentration = concentration;
-			_context.Anions.Add(Anion);
-			await _context.SaveChangesAsync();
+            double concentration = double.Parse(concentrationAsText, CultureInfo.InvariantCulture);
+            Anion.Concentration = concentration;
 
-			return RedirectToPage("./Index");
-		}
-		catch (Exception)
+            _context.Anions.Add(Anion);
+            await _context.SaveChangesAsync();
+
+            return RedirectToPage("./Index");
+        }
+        catch (Exception)
         {
             return Page();
         }

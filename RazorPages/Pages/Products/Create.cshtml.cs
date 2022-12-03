@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using RazorPages.Data;
+using System.Globalization;
 
 namespace RazorPages.Pages.Products;
 
@@ -40,16 +41,16 @@ public class CreateModel : PageModel
     // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD
     public async Task<IActionResult> OnPostAsync()
     {
-        var cations = Request.Form["cations"];
-        var anions = Request.Form["anions"];
+        var cations = Request.Form["Cations"];
+        var anions = Request.Form["Anions"];
 
         var culture = HttpContext.Features.Get<IRequestCultureFeature>();
 
-        var phString = Request.Form["pH"];
-        var phFloat = float.Parse(phString, culture?.RequestCulture.UICulture);
+        var phString = Request.Form["Product.PH"];
+        var phFloat = float.Parse(phString, CultureInfo.InvariantCulture);
 
         var objString = Request.Form["obj"];
-        var objFloat = float.Parse(objString, culture?.RequestCulture.UICulture);
+        var objFloat = float.Parse(objString, CultureInfo.InvariantCulture);
 
         if (Product.ImageFile != null)
         {

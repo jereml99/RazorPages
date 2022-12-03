@@ -44,8 +44,10 @@ public class Product
     [Range(5, 9, ErrorMessage = "value must be in range 5 - 9")]
 	public float PH { get; set; }
 
+    [Required]
     public List<CationsList> CationsLists { get; set; } = new();
 
+    [Required]
     public List<AnionsList> AnionsLists { get; set; } = new();
 
     public string? Mineralization { get; set; }

@@ -1,16 +1,21 @@
 ﻿using DataModel;
 using Newtonsoft.Json;
 
-Console.WriteLine("Hello, World!");
-
 var client = new HttpClient();
 
 while (true)
 {
     displayMenu();
+
     var cmd = Console.ReadLine();
 
-    if (cmd == "q") break;
+	if (string.IsNullOrWhiteSpace(cmd))
+	{
+		Console.WriteLine("Invalid input.");
+		break;
+	}
+
+	if (cmd.Equals("q")) break;
 
     Console.Clear();
 
@@ -23,20 +28,30 @@ async Task act(string? cmd)
     {
         case "d":
             await ListProducts();
-            
+
             break;
         case "u":
             var jsonResponse = await fetchDataFromUri("http://localhost:5115/registeredusers");
             var userNames = JsonConvert.DeserializeObject<List<string>>(jsonResponse ?? "");
-            Console.WriteLine("users:");
+
+            Console.WriteLine("Users:");
             DisplayListWithIndex(userNames);
 
             break;
         case "b":
-            Console.WriteLine("Buy");
             Console.WriteLine("Choose product from list - type in number");
+
             var products = await ListProducts();
-            var parsed = int.TryParse(Console.ReadLine(), out int productIndex);
+
+            var input = Console.ReadLine();
+
+            if (string.IsNullOrWhiteSpace(input))
+            {
+				Console.WriteLine("Invalid input.");
+				break;
+			}
+
+            var parsed = int.TryParse(input, out int productIndex);
 
             if (!parsed || productIndex < 0 || productIndex >= products.Count)
             {
@@ -53,20 +68,16 @@ async Task act(string? cmd)
                 break;
             }
 
-            var result = client.PostAsync($"http://localhost:5115/buy?productName={products[productIndex].Name}&amount={amount}", new StringContent("")).Result;
+            var result = client
+                .PostAsync($"http://localhost:5115/buy?productName={products[productIndex].Name}&amount={amount}", new StringContent(""))
+                .Result;
 
-            if (result.StatusCode == System.Net.HttpStatusCode.OK)
-            {
-                Console.WriteLine("Succesfully bought!");
-            }
-            else
-            {
-                Console.WriteLine("There was an error while buying.");
-            }
+            Console.WriteLine((result.StatusCode == System.Net.HttpStatusCode.OK) ? "Succesfully bought!" : "There was an error while buying.");
 
             break;
         default:
-            break;
+			Console.WriteLine("Invalid input.");
+			break;
     }
 }
 
@@ -84,28 +95,21 @@ async Task<List<Product>> ListProducts()
 
 void displayMenu()
 {
-    Console.WriteLine("##################################");
-    Console.WriteLine("# Choose option:                 #");
-    Console.WriteLine("# d - Display storage state      #");
-    Console.WriteLine("# u - Display registered users   #");
-    Console.WriteLine("# b - Buy                        #");
-    Console.WriteLine("# q - Quit                       #");
-    Console.WriteLine("##################################");
+    Console.WriteLine("__________________________________");
+    Console.WriteLine("| Choose menu option:            |");
+    Console.WriteLine("|--------------------------------|");
+    Console.WriteLine("| d - display storage state      |");
+    Console.WriteLine("| u - display registered users   |");
+    Console.WriteLine("| b - buy                        |");
+    Console.WriteLine("| q - quit                       |");
+    Console.WriteLine("|________________________________|");
 }
 
 async Task<string?> fetchDataFromUri(string uri)
 {
     var requestContent = (await client.GetAsync(uri)).Content;
-    var jsonContent = await requestContent.ReadAsStringAsync();
-
-    return jsonContent;
+    return await requestContent.ReadAsStringAsync();
 }
 
-static void DisplayListWithIndex(List<string>? items)
-{
-    var i = 0;
-    foreach (var item in items ?? new())
-    {
-        Console.WriteLine($"{i++}: {item}");
-    }
-}
+static void DisplayListWithIndex(List<string>? items) =>
+    items?.Select((item, index) => $"{index}: {item}").ToList().ForEach(Console.WriteLine);

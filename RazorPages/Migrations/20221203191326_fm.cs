@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace RazorPages.Migrations
 {
-    public partial class m1 : Migration
+    public partial class fm : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

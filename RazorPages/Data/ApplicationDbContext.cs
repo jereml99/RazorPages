@@ -6,26 +6,9 @@ namespace RazorPages.Data;
 
 public class ApplicationDbContext : IdentityDbContext
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options
-        //, 
-        //DbSet<Anion> anions, DbSet<Cation> cations, 
-        //DbSet<Producer> producer, DbSet<Product> product, 
-        //DbSet<Delivery> delivery, DbSet<Order> order, DbSet<Sales> sales, DbSet<SalesList> salesList, 
-        //DbSet<CationsList> cationsList, DbSet<AnionsList> anionsList
-        )
-        : base(options)
-    {
-        //Anions = anions;
-        //Cations = cations;
-        //Producer = producer;
-        //Product = product;
-        //Delivery = delivery;
-        //Order = order;
-        //Sales = sales;
-        //SalesList = salesList;
-        //CationsList = cationsList;
-        //AnionsList = anionsList;
-    }
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options){}
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public DbSet<Anion> Anions { get; set; }
     public DbSet<Cation> Cations { get; set; }
     public DbSet<Producer> Producer { get; set; }
@@ -41,7 +24,7 @@ public class ApplicationDbContext : IdentityDbContext
     {
         if (!optionsBuilder.IsConfigured)
         {
-            optionsBuilder.UseSqlServer("(localdb)\\mssqllocaldb;Database=yyy;Trusted_Connection=True;MultipleActiveResultSets=true");
+            optionsBuilder.UseSqlServer("(localdb)\\mssqllocaldb;Database=WaterMgmt;Trusted_Connection=True;MultipleActiveResultSets=true");
         }
     }
 }

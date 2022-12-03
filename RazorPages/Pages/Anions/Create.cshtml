@@ -19,7 +19,8 @@
             </div>
             <div class="form-group">
                 <label asp-for="Anion.Concentration" class="control-label"></label>
-                <input asp-for="Anion.Concentration" class="form-control" type="text" step="0.001" name="concentration" max="10" min="0" />
+                <input asp-for="Anion.Concentration" class="form-control"/>
+                <span asp-validation-for="Anion.Concentration" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

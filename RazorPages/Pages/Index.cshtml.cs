@@ -1,7 +1,4 @@
 ﻿using System.Globalization;
-using System.Net;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Options;
