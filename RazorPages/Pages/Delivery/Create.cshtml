@@ -32,7 +32,7 @@
                 <span asp-validation-for="Delivery.Pallets" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <input asp-for="Delivery.Data" type="hidden" value="@DateTime.Now.ToString(CultureInfo.CurrentUICulture)" />
+                <input asp-for="Delivery.Data" type="hidden" value="@DateTime.Now.ToString(new CultureInfo(HttpContext.Request.Cookies["Culture"] ?? "en-GB"))" />
             </div>
 			<div class="form-group">
 				<table>
@@ -49,7 +49,6 @@
                                 <input type="text" name="Delivery.Order[@i].Amount" value="0" />
 							</td>
 						</tr>
-
 					}
 				</table>
 			</div>

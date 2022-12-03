@@ -15,7 +15,6 @@
 
     <form id="culture-switcher" method="post">
         <select name="CurrentUICulture" id="culture-options">
-            <option></option>
             @foreach (var culture in Model.SupportedCultures)
             {
                 <option value="@culture.Name" selected="@(ViewBag.Culture.Name == culture.Name)">@culture.DisplayName</option>

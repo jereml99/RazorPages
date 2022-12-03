@@ -39,10 +39,9 @@ async Task act(string? cmd)
 
             break;
         case "b":
-            Console.WriteLine("Choose product from list - type in number");
-
             var products = await ListProducts();
 
+            Console.WriteLine("\nChoose product from list - type in number");
             var input = Console.ReadLine();
 
             if (string.IsNullOrWhiteSpace(input))
