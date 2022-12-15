@@ -45,7 +45,7 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
         new CultureInfo("pl-PL")
     };
 
-    options.DefaultRequestCulture = new RequestCulture(supportedCultures.First());
+    options.DefaultRequestCulture = new RequestCulture(culture: "en-GB", uiCulture: "en-BG");
     options.SupportedCultures = supportedCultures;
     options.SupportedUICultures = supportedCultures;
 });

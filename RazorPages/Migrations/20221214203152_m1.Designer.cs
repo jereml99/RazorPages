@@ -12,7 +12,7 @@ using RazorPages.Data;
 namespace RazorPages.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221206181140_m1")]
+    [Migration("20221214203152_m1")]
     partial class m1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
